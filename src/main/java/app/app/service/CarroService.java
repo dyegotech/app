@@ -3,6 +3,7 @@ package app.app.service;
 import app.app.entity.Carro;
 import app.app.entity.Marca;
 import app.app.respository.CarroRepository;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ public class CarroService {
 
     public List<Carro> findAll(){
         try{
-            return carroRepository.findAll();
+            return this.carroRepository.findAll();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -25,16 +26,25 @@ public class CarroService {
 
     public String save(Carro carro){
         try{
-            carroRepository.save(carro);
+            verificarCarro(carro.getNome(), carro.getAno());
+            this.carroRepository.save(carro);
             return "Carro salvo com sucesso";
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
+    public boolean verificarCarro(String nome, int ano) {
+        if (nome.equals("Jeep Compass") && ano < 2006){
+            throw new RuntimeException("Nome e/ou ano inválido");
+        }
+
+        return true;
+    }
+
     public String delete(Long id){
         try{
-            carroRepository.deleteById(id);
+            this.carroRepository.deleteById(id);
             return "Carro deletado com sucesso";
         } catch (Exception e) {
             throw new RuntimeException(e);

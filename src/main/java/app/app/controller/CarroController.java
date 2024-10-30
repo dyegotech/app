@@ -46,7 +46,7 @@ public class CarroController {
             return new ResponseEntity<String>(mensagem, HttpStatus.CREATED);
         }catch (Exception e){
             e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>("Erro: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
